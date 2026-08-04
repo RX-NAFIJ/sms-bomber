@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RX_NAFIJ GIFT SMS BOMBER </title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  /* ===== সম্পূর্ণ পুরনো CSS ===== */
+  :root{
+    --amoled:#050505;
+    --glass-border: rgba(0,255,140,0.18);
+    --r1:#00ff9d;
+    --r2:#00e5ff;
+    --r3:#ff003c;
+    --r4:#7c4dff;
+    --r5:#39ff14;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+  html,body{
+    height:100%;
+    background:var(--amoled);
+    overflow-x:hidden;
+    font-family:'Poppins',sans-serif;
+    color:#eaeaea;
+  }
+
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:24px;
+  }
+
+  #matrix{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    opacity:0.45;
+  }
+
+  .scanlines{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,255,140,0.035) 0px,
+      rgba(0,255,140,0.035) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+    mix-blend-mode:overlay;
+  }
+
+  .scan-sweep{
+    position:fixed;
+    left:0;right:0;
+    height:120px;
+    background:linear-gradient(to bottom, transparent, rgba(0,255,140,0.06), transparent);
+    z-index:2;
+    pointer-events:none;
+    animation:sweep 5s linear infinite;
+  }
+
+  @keyframes sweep{
+    0%{top:-120px;}
+    100%{top:100vh;}
+  }
+
+  .vignette{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+  }
+
+  .bg-glow{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.3;
+    animation:breathe 8s ease-in-out infinite;
+  }
+  .orb.o1{width:280px;height:280px;background:var(--r3);top:-80px;left:-60px;animation-delay:0s;}
+  .orb.o2{width:320px;height:320px;background:var(--r2);bottom:-100px;right:-80px;animation-delay:2s;}
+  .orb.o3{width:220px;height:220px;background:var(--r1);bottom:20%;left:-60px;animation-delay:4s;}
+
+  @keyframes breathe{
+    0%,100%{transform:scale(1);opacity:0.2;}
+    50%{transform:scale(1.25);opacity:0.5;}
+  }
+
+  .particle{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+    animation:floatUp linear infinite;
+    opacity:0.7;
+    box-shadow:0 0 8px currentColor;
+  }
+
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0);opacity:0;}
+    10%{opacity:0.9;}
+    90%{opacity:0.7;}
+    100%{transform:translateY(-100vh) translateX(20px);opacity:0;}
+  }
+
+  .card-wrap{
+    position:relative;
+    width:100%;
+    max-width:400px;
+    z-index:3;
+    border-radius:25px;
+    padding:2px;
+    background:linear-gradient(130deg,var(--r5),var(--r2),var(--r3),var(--r4),var(--r1),var(--r5));
+    background-size:400% 400%;
+    animation:rgbRotate 5s linear infinite;
+    box-shadow:0 20px 60px rgba(0,0,0,0.8), 0 0 50px rgba(0,255,140,0.18);
+  }
+
+  @keyframes rgbRotate{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
+  .card{
+    position:relative;
+    border-radius:23px;
+    background:linear-gradient(180deg, rgba(6,10,8,0.9), rgba(4,4,5,0.95));
+    backdrop-filter:blur(22px) saturate(150%);
+    -webkit-backdrop-filter:blur(22px) saturate(150%);
+    border:1px solid var(--glass-border);
+    padding:36px 26px 30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow:hidden;
+  }
+
+  .card::before{
+    content:'';
+    position:absolute;
+    top:-50%;
+    left:-20%;
+    width:140%;
+    height:60%;
+    background:linear-gradient(120deg, rgba(0,255,140,0.06), transparent 60%);
+    transform:rotate(-8deg);
+    pointer-events:none;
+  }
+
+  .terminal-tag{
+    align-self:flex-start;
+    font-family:'Share Tech Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:1.5px;
+    color:#00ff9d;
+    opacity:0.75;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .terminal-tag .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#00ff9d;
+    box-shadow:0 0 8px #00ff9d;
+    animation:blink 1.4s ease-in-out infinite;
+  }
+
+  @keyframes blink{
+    0%,100%{opacity:1;}
+    50%{opacity:0.25;}
+  }
+
+  .logo-wrap{
+    position:relative;
+    width:112px;
+    height:112px;
+    margin-bottom:20px;
+    animation:floatLogo 4s ease-in-out infinite;
+  }
+
+  @keyframes floatLogo{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+  }
+
+  .logo-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    padding:4px;
+    background:linear-gradient(135deg, var(--r5), var(--r2), var(--r3), var(--r4));
+    filter:drop-shadow(0 0 16px rgba(0,255,140,0.55));
+    animation:ringPulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes ringPulse{
+    0%,100%{filter:drop-shadow(0 0 12px rgba(0,255,140,0.45));}
+    50%{filter:drop-shadow(0 0 22px rgba(0,229,255,0.7));}
+  }
+
+  .logo-inner{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:var(--amoled);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .logo-img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.05) saturate(1.05);
+  }
+
+  h1.brand{
+    position:relative;
+    font-family:'Orbitron',sans-serif;
+    font-weight:900;
+    font-size:23px;
+    letter-spacing:2px;
+    text-align:center;
+    background:linear-gradient(90deg,var(--r5),var(--r2),var(--r3),var(--r4),var(--r1),var(--r5));
+    background-size:300% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:rgbText 5s linear infinite;
+    margin-bottom:6px;
+  }
+
+  h1.brand::before, h1.brand::after{
+    content:'RX SMS-BOMBER';
+    position:absolute;
+    left:0;right:0;top:0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    background:none;
+    -webkit-text-fill-color:transparent;
+    clip-path:inset(0 0 0 0);
+  }
+
+  h1.brand::before{
+    color:#ff003c;
+    -webkit-text-fill-color:#ff003c;
+    animation:glitchTop 3.5s infinite linear;
+    opacity:0.7;
+  }
+
+  h1.brand::after{
+    color:#00e5ff;
+    -webkit-text-fill-color:#00e5ff;
+    animation:glitchBottom 3.5s infinite linear;
+    opacity:0.7;
+  }
+
+  @keyframes glitchTop{
+    0%,92%,100%{clip-path:inset(0 0 92% 0);transform:translate(0,0);}
+    93%{clip-path:inset(0 0 88% 0);transform:translate(-2px,-1px);}
+    95%{clip-path:inset(30% 0 40% 0);transform:translate(2px,1px);}
+    97%{clip-path:inset(10% 0 70% 0);transform:translate(-1px,0);}
+  }
+
+  @keyframes glitchBottom{
+    0%,92%,100%{clip-path:inset(92% 0 0 0);transform:translate(0,0);}
+    93%{clip-path:inset(85% 0 0 0);transform:translate(2px,1px);}
+    95%{clip-path:inset(60% 0 15% 0);transform:translate(-2px,-1px);}
+    97%{clip-path:inset(75% 0 5% 0);transform:translate(1px,0);}
+  }
+
+  @keyframes rgbText{
+    to{background-position:300% center;}
+  }
+
+  .subtitle{
+    font-family:'Share Tech Mono',monospace;
+    font-size:11.5px;
+    color:rgba(0,255,157,0.55);
+    letter-spacing:0.8px;
+    margin-bottom:28px;
+    text-align:center;
+  }
+
+  .subtitle .cursor{
+    display:inline-block;
+    width:7px;
+    background:#00ff9d;
+    margin-left:2px;
+    animation:blink 1s steps(1) infinite;
+  }
+
+  .amount-wrapper{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+  }
+
+  .amount-wrapper .field{
+    flex:1;
+    margin-bottom:0;
+  }
+
+  .max-badge{
+    font-family:'Share Tech Mono',monospace;
+    font-size:11px;
+    color:rgba(0,255,157,0.5);
+    background:rgba(0,255,140,0.06);
+    padding:4px 12px;
+    border-radius:12px;
+    border:1px solid rgba(0,255,140,0.08);
+    white-space:nowrap;
+    letter-spacing:0.5px;
+    flex-shrink:0;
+  }
+
+  .field{
+    position:relative;
+    width:100%;
+    margin-bottom:16px;
+    border-radius:16px;
+    padding:2px;
+    background:rgba(0,255,140,0.06);
+    transition:background 0.4s ease;
+  }
+
+  .field::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    padding:2px;
+    background:linear-gradient(120deg,var(--r5),var(--r2),var(--r3),var(--r4));
+    background-size:300% 300%;
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:0;
+    transition:opacity 0.35s ease;
+    animation:rgbRotate 4s linear infinite;
+    pointer-events:none;
+  }
+
+  .field.focused::after{opacity:1;}
+  .field.focused{background:rgba(255,255,255,0.02);}
+
+  .field-inner{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:rgba(8,10,9,0.8);
+    border-radius:14px;
+    padding:15px 16px;
+  }
+
+  .field-inner i{
+    font-size:16px;
+    width:20px;
+    text-align:center;
+    color:rgba(0,255,157,0.45);
+    transition:color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .field.focused .field-inner i{
+    color:#00ff9d;
+    text-shadow:0 0 10px rgba(0,255,157,0.9);
+  }
+
+  .field-inner input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#eafff2;
+    font-family:'Poppins',sans-serif;
+    font-size:14.5px;
+    font-weight:400;
+    letter-spacing:0.3px;
+  }
+
+  .field-inner input::placeholder{
+    color:rgba(255,255,255,0.3);
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+  }
+  input[type=number]{-moz-appearance:textfield;}
+
+  .btn-wrap{
+    position:relative;
+    width:100%;
+    margin-top:8px;
+    border-radius:16px;
+    padding:2px;
+    background:linear-gradient(120deg,var(--r5),var(--r2),var(--r3),var(--r4),var(--r5));
+    background-size:300% 300%;
+    animation:rgbRotate 4s linear infinite;
+    box-shadow:0 8px 30px rgba(0,255,140,0.2);
+    transition:transform 0.15s ease, box-shadow 0.3s ease;
+  }
+
+  .btn-wrap:hover{
+    box-shadow:0 10px 44px rgba(0,229,255,0.4);
+  }
+
+  .btn-wrap:active{
+    transform:scale(0.96);
+  }
+
+  .submit-btn{
+    position:relative;
+    width:100%;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    border-radius:14px;
+    padding:16px 0;
+    background:rgba(6,8,7,0.92);
+    backdrop-filter:blur(10px);
+    color:#eafff2;
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    letter-spacing:3px;
+    overflow:hidden;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+
+  .submit-btn:hover{
+    background:rgba(10,14,12,0.92);
+    color:#00ff9d;
+  }
+
+  .ripple{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(0,255,157,0.5);
+    transform:scale(0);
+    animation:rippleAnim 0.6s ease-out;
+    pointer-events:none;
+  }
+
+  @keyframes rippleAnim{
+    to{
+      transform:scale(3.5);
+      opacity:0;
+    }
+  }
+
+  /* ===== ফুটার (ডান পাশে) ===== */
+  .footer{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,0.04);
+    width:100%;
+  }
+
+  .footer a{
+    color:rgba(0,255,157,0.6);
+    font-size:26px;
+    transition:all 0.3s ease;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(0,255,157,0.04);
+    border:1px solid rgba(0,255,157,0.08);
+  }
+
+  .footer a:hover{
+    color:#00ff9d;
+    border-color:rgba(0,255,157,0.4);
+    background:rgba(0,255,157,0.08);
+    box-shadow:0 0 30px rgba(0,255,157,0.2);
+    transform:translateY(-2px) scale(1.05);
+  }
+
+  .footer a i{
+    font-size:24px;
+    filter:drop-shadow(0 0 8px rgba(0,255,157,0.3));
+  }
+
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:40px;
+    transform:translate(-50%, 40px);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 26px;
+    border-radius:50px;
+    background:rgba(6,10,8,0.65);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid rgba(0,255,157,0.35);
+    box-shadow:0 0 25px rgba(0,255,157,0.45), 0 8px 30px rgba(0,0,0,0.5);
+    opacity:0;
+    z-index:999;
+    pointer-events:none;
+    transition:opacity 0.35s ease, transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .toast.show{
+    opacity:1;
+    transform:translate(-50%, 0);
+  }
+
+  .toast i{
+    color:#00ff9d;
+    font-size:15px;
+    filter:drop-shadow(0 0 6px rgba(0,255,157,0.8));
+  }
+
+  .toast span{
+    font-family:'Share Tech Mono',monospace;
+    font-size:13px;
+    font-weight:500;
+    color:#eafff5;
+    letter-spacing:1px;
+  }
+
+  @media (max-width:380px){
+    .card{padding:30px 20px 26px;}
+    h1.brand{font-size:20px;}
+    .footer a{width:44px;height:44px;}
+    .footer a i{font-size:20px;}
+    .max-badge{font-size:10px;padding:3px 10px;}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+<div class="scan-sweep"></div>
+<div class="bg-glow" id="bgGlow"></div>
+
+<div class="card-wrap">
+  <div class="card">
+
+    <div class="terminal-tag"><span class="dot"></span>Status-->Active</div>
+
+    <div class="logo-wrap">
+      <div class="logo-ring">
+        <div class="logo-inner">
+          <img class="logo-img" src="https://i.ibb.co.com/KpTvBnkr/IMG-20260803-WA0002-2.jpg" alt="logo">
+        </div>
+      </div>
+    </div>
+
+    <h1 class="brand">RX SMS-BOMBER</h1>
+    <p class="subtitle">&gt; Devoloper : RX_NAFIJ<span class="cursor">&nbsp;</span></p>
+
+    <div class="field" id="fieldPhone">
+      <div class="field-inner">
+        <i class="fa-solid fa-phone"></i>
+        <input type="tel" inputmode="numeric" placeholder="Number" id="numberInput">
+      </div>
+    </div>
+
+    <div class="amount-wrapper">
+      <div class="field" id="fieldAmount">
+        <div class="field-inner">
+          <i class="fa-solid fa-sack-dollar"></i>
+          <input type="number" placeholder="Amount" id="amountInput">
+        </div>
+      </div>
+      <span class="max-badge">Max 50</span>
+    </div>
+
+    <div class="btn-wrap" id="btnWrap">
+      <button class="submit-btn" id="submitBtn">SUBMIT</button>
+    </div>
+
+    <!-- ===== ফুটার (ডান পাশে টেলিগ্রাম আইকন) ===== -->
+    <div class="footer">
+      <a href="https://t.me/teamrx1" target="_blank" rel="noopener noreferrer" aria-label="Telegram Group">
+        <i class="fa-brands fa-telegram-plane"></i>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check"></i>
+  <span>Working</span>
+</div>
+
+<script>
+  // ===== ম্যাট্রিক্স রেইন =====
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  function resize(){canvas.width = window.innerWidth; canvas.height = window.innerHeight;}
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = "01アイウエオカキクケコサシスセソ$#@%&SEND";
+  const fontSize = 15;
+  let columns = Math.floor(canvas.width / fontSize);
+  let drops = new Array(columns).fill(1);
+
+  function drawMatrix(){
+    ctx.fillStyle = 'rgba(5,5,5,0.08)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font = fontSize + 'px monospace';
+    for(let i=0;i<drops.length;i++){
+      const text = chars[Math.floor(Math.random()*chars.length)];
+      const grad = Math.random();
+      ctx.fillStyle = grad > 0.97 ? '#ffffff' : (grad > 0.5 ? 'rgba(0,255,140,0.8)' : 'rgba(0,255,140,0.35)');
+      ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 55);
+
+  // ===== ফোকাস গ্লো =====
+  document.querySelectorAll('.field input').forEach(input=>{
+    const field = input.closest('.field');
+    input.addEventListener('focus', ()=> field.classList.add('focused'));
+    input.addEventListener('blur', ()=> field.classList.remove('focused'));
+  });
+
+  // ===== রিপল + SMS BOMBER =====
+  const btn = document.getElementById('submitBtn');
+  const btnWrap = document.getElementById('btnWrap');
+  const toast = document.getElementById('toast');
+  const numberInput = document.getElementById('numberInput');
+  const amountInput = document.getElementById('amountInput');
+  let toastTimer;
+
+  function showToast(msg, color = 'rgba(0,255,157,0.35)'){
+    toast.querySelector('span').textContent = msg;
+    toast.style.borderColor = color;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 3000);
+  }
+
+  async function launchSMSAttack(phone, amount){
+    try {
+      const response = await fetch('/api/attack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone, amount: parseInt(amount) || 1 })
+      });
+      
+      const data = await response.json();
+      
+      if(data.error){
+        showToast(`❌ ${data.error}`, '#ff003c');
+        return;
+      }
+      
+      showToast(`✅ ${data.success || 0} sent to ${phone}`, '#00ff9d');
+      
+    } catch(error){
+      showToast(`❌ Connection error: ${error.message}`, '#ff003c');
+    }
+  }
+
+  btn.addEventListener('click', function(e){
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    const size = Math.max(rect.width, rect.height);
+    ripple.className = 'ripple';
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(()=> ripple.remove(), 600);
+
+    btnWrap.style.transform = 'scale(0.94)';
+    setTimeout(()=> btnWrap.style.transform = 'scale(1)', 150);
+
+    const phone = numberInput.value.trim();
+    const amount = amountInput.value.trim();
+
+    if(!phone || phone.length < 10){
+      showToast('❌ Enter valid phone number!', '#ff003c');
+      return;
+    }
+
+    if(!amount || parseInt(amount) < 1){
+      showToast('❌ Enter amount (min 1)!', '#ff003c');
+      return;
+    }
+
+    if(parseInt(amount) > 50){
+      showToast('⚠️ Max 50 per attack!', '#ffcc00');
+      return;
+    }
+
+    showToast(`🚀 Attacking ${phone} (${amount}x)`, '#00e5ff');
+    launchSMSAttack(phone, amount);
+  });
+
+  numberInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') btn.click();
+  });
+  amountInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') btn.click();
+  });
+
+  // ===== ফ্লোটিং পার্টিকেল =====
+  const bgGlow = document.getElementById('bgGlow');
+  const colors = ['#39ff14','#00e5ff','#ff003c','#7c4dff','#00ff9d'];
+  const particleCount = window.innerWidth < 500 ? 18 : 32;
+
+  for(let i=0;i<particleCount;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*4 + 2;
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.background = color;
+    p.style.color = color;
+    p.style.boxShadow = `0 0 ${size*4}px ${color}`;
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.bottom = (Math.random()*20) + 'px';
+    const duration = Math.random()*12 + 8;
+    p.style.animationDuration = duration + 's';
+    p.style.animationDelay = (Math.random()*duration) + 's';
+    bgGlow.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
