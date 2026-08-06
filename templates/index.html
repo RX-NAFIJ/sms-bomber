@@ -594,7 +594,7 @@
       }
     }
 
-    /* ===== ফুটার (ডান পাশে) ===== */
+    /* ===== ফুটার ===== */
     .footer {
       display: flex;
       justify-content: flex-end;
@@ -634,133 +634,72 @@
       filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.3));
     }
 
-    /* ===== মোডাল (লগ হিস্ট্রি) ===== */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(12px);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #0f1625;
-      border-radius: 20px;
-      max-width: 480px;
-      width: 100%;
-      max-height: 80vh;
-      border: 1px solid rgba(0, 255, 140, 0.1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .modal-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
-      color: #00ff9d;
-      letter-spacing: 1px;
-    }
-
-    .modal-close {
-      font-size: 24px;
-      color: #6c7e9e;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .modal-close:hover {
-      color: #ff003c;
-    }
-
-    .modal-body {
-      flex: 1;
+    /* ===== লগ কন্টেইনার ===== */
+    .log-container {
+      max-height: 200px;
       overflow-y: auto;
-      padding: 16px 20px;
       font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
+      padding-right: 4px;
+      margin-top: 10px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 10px;
     }
 
-    .modal-body::-webkit-scrollbar {
+    .log-container::-webkit-scrollbar {
       width: 3px;
     }
-    .modal-body::-webkit-scrollbar-thumb {
+    .log-container::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.08);
       border-radius: 10px;
     }
 
-    .modal-footer {
+    .log-entry {
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 11px;
-      color: #4a5a7a;
-    }
-
-    .clear-log-btn {
-      background: rgba(244, 59, 95, 0.1);
-      border: 1px solid rgba(244, 59, 95, 0.15);
-      color: #f43b5f;
-      padding: 4px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 11px;
-      transition: 0.2s;
-    }
-
-    .clear-log-btn:hover {
-      background: rgba(244, 59, 95, 0.2);
-    }
-
-    .history-entry {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
       gap: 8px;
+      animation: fadeIn 0.2s ease;
     }
 
-    .history-entry .h-time {
+    .log-entry .time {
       color: #3a4866;
-      min-width: 60px;
+      font-size: 9px;
+      min-width: 30px;
     }
-    .history-entry .h-phone {
-      color: #00ff9d;
-      flex: 1;
-    }
-    .history-entry .h-status {
-      color: #4a5a7a;
-    }
-    .history-entry .h-status.ok {
+
+    .log-entry .ok {
       color: #45d686;
     }
-    .history-entry .h-status.fail {
+    .log-entry .fail {
       color: #f43b5f;
+    }
+    .log-entry .info {
+      color: #6c7e9e;
     }
 
     .log-empty {
       color: #3a4866;
       text-align: center;
-      padding: 30px 0;
+      padding: 20px 0;
       font-style: italic;
+    }
+
+    .log-stats {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 4px;
+      font-size: 11px;
+      color: #4a5a7a;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      margin-top: 8px;
+    }
+
+    .log-stats span {
+      color: #7a8aaa;
     }
 
     /* ===== টোস্ট ===== */
@@ -870,33 +809,24 @@
         <button class="submit-btn" id="submitBtn">SUBMIT</button>
       </div>
 
-      <!-- ===== ফুটার (ডান পাশে টেলিগ্রাম + লগ আইকন) ===== -->
+      <!-- ===== লগ সেকশন ===== -->
+      <div style="width: 100%; margin-top: 10px;">
+        <div class="log-container" id="logContainer">
+          <div class="log-empty">⏳ Waiting for attack...</div>
+        </div>
+        <div class="log-stats">
+          <span>Total: <span id="logCount">0</span></span>
+          <span>✅ <span id="successCount">0</span> | ❌ <span id="failCount">0</span></span>
+        </div>
+      </div>
+
+      <!-- ===== ফুটার ===== -->
       <div class="footer">
         <a href="https://t.me/teamrx1" target="_blank" rel="noopener noreferrer" aria-label="Telegram Group">
           <i class="fa-brands fa-telegram-plane"></i>
         </a>
-        <a href="#" id="logHistoryBtn" aria-label="Log History">
-          <i class="fa-solid fa-clock-rotate-left"></i>
-        </a>
       </div>
 
-    </div>
-  </div>
-
-  <!-- ===== লগ হিস্ট্রি মোডাল ===== -->
-  <div id="logModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="modal-title">📜 LOG HISTORY</span>
-        <span class="modal-close" id="closeLogModal">&times;</span>
-      </div>
-      <div class="modal-body" id="logHistoryBody">
-        <div class="log-empty">⏳ No logs yet...</div>
-      </div>
-      <div class="modal-footer">
-        <span>🕒 Auto-delete after 24 hours</span>
-        <button id="clearHistoryBtn" class="clear-log-btn">Clear All</button>
-      </div>
     </div>
   </div>
 
@@ -946,94 +876,16 @@
       input.addEventListener('blur', () => field.classList.remove('focused'));
     });
 
-    // ===== লগ হিস্ট্রি স্টোরেজ =====
-    let historyLogs = [];
-    const HISTORY_EXPIRY = 24 * 60 * 60 * 1000; // 24 ঘন্টা
-
-    function loadHistory() {
-      try {
-        const saved = localStorage.getItem('sms_bomber_history');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          const now = Date.now();
-          const valid = parsed.filter(entry => (now - entry.timestamp) < HISTORY_EXPIRY);
-          if (valid.length !== parsed.length) {
-            localStorage.setItem('sms_bomber_history', JSON.stringify(valid));
-          }
-          historyLogs = valid;
-          renderHistory();
-        }
-      } catch (e) {
-        historyLogs = [];
-      }
-    }
-
-    function saveHistory() {
-      localStorage.setItem('sms_bomber_history', JSON.stringify(historyLogs));
-    }
-
-    function addHistory(phone, amount, success, failed) {
-      const entry = {
-        phone: phone,
-        amount: amount,
-        success: success,
-        failed: failed,
-        timestamp: Date.now()
-      };
-      historyLogs.unshift(entry);
-      if (historyLogs.length > 500) historyLogs = historyLogs.slice(0, 500);
-      saveHistory();
-      renderHistory();
-    }
-
-    function renderHistory() {
-      const body = document.getElementById('logHistoryBody');
-      if (historyLogs.length === 0) {
-        body.innerHTML = '<div class="log-empty">⏳ No logs yet...</div>';
-        return;
-      }
-      let html = '';
-      for (const entry of historyLogs) {
-        const time = new Date(entry.timestamp).toLocaleString('en-GB', { hour12: false });
-        const status = entry.failed === 0 ? 'ok' : 'fail';
-        html += `<div class="history-entry">
-          <span class="h-time">${time}</span>
-          <span class="h-phone">${entry.phone}</span>
-          <span class="h-status ${status}">✅${entry.success} ❌${entry.failed}</span>
-        </div>`;
-      }
-      body.innerHTML = html;
-    }
-
-    // ===== মোডাল কন্ট্রোল =====
-    document.getElementById('logHistoryBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('logModal').classList.add('show');
-      renderHistory();
-    });
-
-    document.getElementById('closeLogModal').addEventListener('click', function() {
-      document.getElementById('logModal').classList.remove('show');
-    });
-
-    document.getElementById('logModal').addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('show');
-    });
-
-    document.getElementById('clearHistoryBtn').addEventListener('click', function() {
-      if (confirm('Clear all history?')) {
-        historyLogs = [];
-        saveHistory();
-        renderHistory();
-      }
-    });
-
     // ===== রিপল + SMS BOMBER =====
     const btn = document.getElementById('submitBtn');
     const btnWrap = document.getElementById('btnWrap');
     const toast = document.getElementById('toast');
     const numberInput = document.getElementById('numberInput');
     const amountInput = document.getElementById('amountInput');
+    const logContainer = document.getElementById('logContainer');
+    const logCount = document.getElementById('logCount');
+    const successCount = document.getElementById('successCount');
+    const failCount = document.getElementById('failCount');
     let toastTimer;
 
     function showToast(msg, color = 'rgba(0,255,157,0.35)') {
@@ -1044,7 +896,119 @@
       toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
+    function updateLogStats(data) {
+      logCount.textContent = data.total || 0;
+      successCount.textContent = data.success || 0;
+      failCount.textContent = data.failed || 0;
+    }
+
     async function launchSMSAttack(phone, amount) {
       try {
         const response = await fetch('/api/attack', {
-          method: '
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, amount: parseInt(amount) || 1 })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          showToast(`❌ ${data.error}`, '#ff003c');
+          return;
+        }
+
+        // রিয়েল-টাইম লগ দেখানো
+        if (data.results) {
+          let logHtml = '';
+          data.results.forEach((log, index) => {
+            const status = log.success ? '✅' : '❌';
+            const statusClass = log.success ? 'ok' : 'fail';
+            const name = log.api_name || `API #${index + 1}`;
+            logHtml += `<div class="log-entry">
+              <span class="time">${index + 1}</span>
+              <span class="${statusClass}">${status} ${name}</span>
+            </div>`;
+          });
+          logContainer.innerHTML = logHtml;
+          updateLogStats(data);
+        }
+
+        showToast(`✅ ${data.success} SMS sent to ${phone}`, '#00ff9d');
+
+      } catch (error) {
+        showToast(`❌ Connection error: ${error.message}`, '#ff003c');
+      }
+    }
+
+    btn.addEventListener('click', function(e) {
+      // রিপল ইফেক্ট
+      const rect = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+
+      btnWrap.style.transform = 'scale(0.94)';
+      setTimeout(() => btnWrap.style.transform = 'scale(1)', 150);
+
+      const phone = numberInput.value.trim();
+      const amount = amountInput.value.trim();
+
+      if (!phone || phone.length < 10) {
+        showToast('❌ Enter valid phone number!', '#ff003c');
+        return;
+      }
+
+      if (!amount || parseInt(amount) < 1) {
+        showToast('❌ Enter amount (min 1)!', '#ff003c');
+        return;
+      }
+
+      if (parseInt(amount) > 50) {
+        showToast('⚠️ Max 50 per attack!', '#ffcc00');
+        return;
+      }
+
+      // লগ ক্লিয়ার
+      logContainer.innerHTML = '<div class="log-entry info">🚀 Starting attack...</div>';
+      showToast(`🚀 Attacking ${phone} (${amount}x)`, '#00e5ff');
+      launchSMSAttack(phone, amount);
+    });
+
+    numberInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') btn.click();
+    });
+    amountInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') btn.click();
+    });
+
+    // ===== ফ্লোটিং পার্টিকেল =====
+    const bgGlow = document.getElementById('bgGlow');
+    const colors = ['#39ff14', '#00e5ff', '#ff003c', '#7c4dff', '#00ff9d'];
+    const particleCount = window.innerWidth < 500 ? 18 : 32;
+
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.background = color;
+      p.style.color = color;
+      p.style.boxShadow = `0 0 ${size * 4}px ${color}`;
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.bottom = (Math.random() * 20) + 'px';
+      const duration = Math.random() * 12 + 8;
+      p.style.animationDuration = duration + 's';
+      p.style.animationDelay = (Math.random() * duration) + 's';
+      bgGlow.appendChild(p);
+    }
+  </script>
+
+</body>
+</html>
