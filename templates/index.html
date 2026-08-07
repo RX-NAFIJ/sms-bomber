@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ===== রুট ভেরিয়েবল ===== */
+    /* ===== সব CSS আগের মতোই ===== */
     :root {
       --amoled: #050505;
       --glass-border: rgba(0, 255, 140, 0.18);
@@ -46,7 +46,6 @@
       padding: 24px;
     }
 
-    /* ===== ম্যাট্রিক্স ব্যাকগ্রাউন্ড ===== */
     #matrix {
       position: fixed;
       inset: 0;
@@ -174,7 +173,6 @@
       }
     }
 
-    /* ===== কার্ড র‍্যাপার ===== */
     .card-wrap {
       position: relative;
       width: 100%;
@@ -917,7 +915,7 @@
           return;
         }
 
-        // রিয়েল-টাইম লগ দেখানো
+        // ===== রিয়েল-টাইম লগ (প্রতিটি API-র ডিটেইল) =====
         if (data.results) {
           let logHtml = '';
           data.results.forEach((log, index) => {
@@ -933,6 +931,7 @@
           updateLogStats(data);
         }
 
+        // ===== টোস্টে শুধু সারাংশ =====
         showToast(`✅ ${data.success} SMS sent to ${phone}`, '#00ff9d');
 
       } catch (error) {
